@@ -1,0 +1,33 @@
+# Local virtualenv / caches — must never enter the image (they contain
+# host-specific binaries and would shadow the container's own packages).
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local runtime state (SQLite fallback, etc.)
+instance/
+
+# Local overrides / secrets
+.env
+.env.local
+
+# Tests and tooling not needed at runtime
+tests/
+pytest.ini
+
+# VCS / editor / OS
+.git/
+.gitignore
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docs
+README.md

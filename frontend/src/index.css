@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 150 20% 99%;
+    --foreground: 222 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 30% 10%;
+    --muted: 210 20% 95%;
+    --muted-foreground: 215 15% 45%;
+    --primary: 160 84% 33%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 20% 93%;
+    --secondary-foreground: 222 30% 12%;
+    --accent: 160 60% 94%;
+    --accent-foreground: 160 84% 26%;
+    --destructive: 0 72% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 160 84% 30%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 40%;
+    --warning-foreground: 30 80% 8%;
+    --info: 199 89% 38%;
+    --info-foreground: 0 0% 100%;
+    --cyanx: 186 92% 35%;
+    --cyanx-foreground: 0 0% 100%;
+    --border: 214 25% 90%;
+    --input: 214 25% 88%;
+    --ring: 160 84% 33%;
+  }
+
+  .dark {
+    --background: 222 47% 5%;
+    --foreground: 210 40% 96%;
+    --card: 222 45% 8%;
+    --card-foreground: 210 40% 96%;
+    --muted: 222 30% 13%;
+    --muted-foreground: 215 17% 65%;
+    --primary: 158 84% 44%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 222 30% 17%;
+    --secondary-foreground: 210 40% 96%;
+    --accent: 158 45% 15%;
+    --accent-foreground: 158 70% 85%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 158 70% 48%;
+    --success-foreground: 158 80% 8%;
+    --warning: 38 92% 55%;
+    --warning-foreground: 30 80% 8%;
+    --info: 199 89% 55%;
+    --info-foreground: 222 47% 8%;
+    --cyanx: 186 92% 50%;
+    --cyanx-foreground: 222 47% 8%;
+    --border: 222 25% 18%;
+    --input: 222 25% 22%;
+    --ring: 158 84% 44%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    min-width: 320px;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  /* Subtle glassmorphism card used across the app. */
+  .glass {
+    @apply border border-border/70 bg-card/60 backdrop-blur-xl;
+  }
+
+  /* Small monospace eyebrow label above headings. */
+  .section-label {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.22em] text-primary;
+  }
+}
+
+@layer utilities {
+  /* Gradient headline text. */
+  .text-gradient {
+    @apply bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+
+  /* Faint grid + glow motif behind hero sections. */
+  .hero-motif {
+    background-image:
+      radial-gradient(
+        ellipse 60% 50% at 25% 15%,
+        hsl(var(--primary) / 0.16),
+        transparent 65%
+      ),
+      radial-gradient(
+        ellipse 50% 45% at 80% 20%,
+        hsl(var(--cyanx) / 0.12),
+        transparent 60%
+      ),
+      linear-gradient(hsl(var(--border) / 0.55) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.55) 1px, transparent 1px);
+    background-size: auto, auto, 46px 46px, 46px 46px;
+    background-position: center, center, center top;
+    -webkit-mask-image: radial-gradient(
+      ellipse 85% 75% at 50% 30%,
+      black 25%,
+      transparent 78%
+    );
+    mask-image: radial-gradient(
+      ellipse 85% 75% at 50% 30%,
+      black 25%,
+      transparent 78%
+    );
+  }
+
+  /* Binary-rain text layer for the hero (pure CSS, aria-hidden in markup). */
+  .binary-rain {
+    font-family: theme("fontFamily.mono");
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: 0.35em;
+    word-break: break-all;
+    color: hsl(var(--primary) / 0.5);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

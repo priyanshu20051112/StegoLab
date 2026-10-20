@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: stegolab-db
+    environment:
+      POSTGRES_USER: stegolab
+      POSTGRES_PASSWORD: stegolab
+      POSTGRES_DB: stegolab
+    volumes:
+      - stegolab-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stegolab -d stegolab"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build: ./backend
+    container_name: stegolab-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://stegolab:stegolab@db:5432/stegolab
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      CORS_ORIGINS: http://localhost:3000,http://localhost:5173
+      MAX_UPLOAD_MB: "10"
+    command: sh -c "flask db upgrade && gunicorn -b 0.0.0.0:5000 -w 2 --threads 4 wsgi:app"
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend
+    container_name: stegolab-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  stegolab-db-data:
